@@ -985,6 +985,6 @@ categories: [
 
 2. 原来的博客是hugo本地编译再push整个public，并不文雅而且容易丢失原档
 
-   搓了一个workflow调github action去release
-   
+   改了一下git hook，把markdown拉到server上再编译
+
 3. 才发现rc.local过时了，当场拟合一下systemd的启动咋写
