@@ -1,2 +1,5 @@
-# my-blog
-rebuild the blog repository with github actions
+# zer0e's blog
+记录平时踩到的坑
+
+一些分布式，开发，和折腾日记
+
