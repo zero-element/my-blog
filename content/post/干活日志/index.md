@@ -539,6 +539,11 @@ categories: [
 
 3. 学spring boot
 
+### 2021/3/22
+
+1. 本来准备学CS3210，但是考虑到rCore资料比较多，写完rustlings就开始rCore
+2. 搓报告
+
 # 2020
 
 ## 11月
