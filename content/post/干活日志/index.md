@@ -544,6 +544,16 @@ categories: [
 1. 本来准备学CS3210，但是考虑到rCore资料比较多，写完rustlings就开始rCore
 2. 搓报告
 
+### 2021/3/23
+
+1. 搓完了rustlings，仿佛理解了一切又仿佛甚么也没理解（x
+
+### 2021/3/24
+
+1. 搓完了课设报告
+2. 过[too-many-lists](https://rust-unofficial.github.io/too-many-lists/)
+3. 同步啃[rCore-Tutorial](http://wyfcyx.gitee.io/rcore-tutorial-book-v3/)
+
 # 2020
 
 ## 11月
