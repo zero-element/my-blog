@@ -3,7 +3,7 @@ title: "Powershell搓一个代码备份脚本"
 date: 2020-11-25
 description: "学了下powershell，魔改了个备份脚本玩"
 categories: [
-  "CTF"
+  "折腾"
 ]
 ---
 
