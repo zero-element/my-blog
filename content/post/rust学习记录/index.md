@@ -463,6 +463,53 @@ fn longest_with_an_announcement<'a, T: fmt::Display>(x: &'a str, y: &'a str, ann
 }
 ```
 
+##### 智能指针
+
+拿一道leetcode题作为例子：[二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+
+```rust
+#[derive(Debug, PartialEq, Eq)]
+pub struct TreeNode {
+    pub val: i32,
+    pub left: Option<Rc<RefCell<TreeNode>>>,
+    pub right: Option<Rc<RefCell<TreeNode>>>,
+}
+
+impl TreeNode {
+    #[inline]
+    pub fn new(val: i32) -> Self {
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
+    }
+}
+
+impl Solution {
+    pub fn search(root: Option<Rc<RefCell<TreeNode>>>, k: i32, count: &mut i32, ans: &mut i32) {
+        if let Some(root) = root {
+            let root = root.borrow();
+            Self::search(root.right.clone(), k, count, ans);
+            *count += 1;
+            if *count == k {
+                *ans = root.val;
+            }
+            Self::search(root.left.clone(), k, count, ans);
+        }
+    }
+
+    pub fn kth_largest(root: Option<Rc<RefCell<TreeNode>>>, k: i32) -> i32 {
+        let mut count = 0;
+        let mut ans = 0;
+        Self::search(root, k, &mut count, &mut ans);
+        return ans;
+    }
+}
+```
+
+
+
 # 复杂一点的栗子
 
 ### 常用语法
@@ -512,7 +559,7 @@ fn main() {
 rand = "0.5.5"
 ```
 
-### 简单的WebServer（并发）
+### 并发：简单的WebServer
 
 src/bin/main.rs
 
@@ -599,7 +646,8 @@ pub struct ThreadPool {
 type Job = Box<dyn FnOnce() + Send + 'static>; /// 智能指针，指向堆上数据，仅允许单一持有者
                                                /// 相应的，Rc<>支持多个持有者，通过引用计数智能释放
                                                /// Rc和Box都是不可变引用，RefCell支持可变引用，但仅允许单一持有者
-                                               /// dyn表示trait对象，FnOnce指定trait类型，这里是闭包类型的一种（详见圣经10.2），Send为需要的方法，'static为生命周期
+                                               /// dyn用于消除歧义，表明该trait为动态分发（类似CPP虚表）
+											   /// FnOnce指定trait，这里是闭包类型的一种（详见圣经10.2），Send为需要的方法，'static为生命周期
 
 impl ThreadPool {
     /// 创建线程池。
@@ -695,3 +743,4 @@ impl Worker {
     }
 }
 ```
+

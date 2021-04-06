@@ -554,6 +554,30 @@ categories: [
 2. 过[too-many-lists](https://rust-unofficial.github.io/too-many-lists/)
 3. 同步啃[rCore-Tutorial](http://wyfcyx.gitee.io/rcore-tutorial-book-v3/)
 
+### 2021/3/25
+
+1. js写了个处理项目数据的脚本，lodash好评如潮
+2. 读rCore
+
+### 2021/3/26
+
+1. 学java，mybatis
+2. 出php题&玩了个毒瘤东西，准备出毒瘤题
+
+## 4月
+
+近期巨大颓废
+
+### 2021/4/3
+
+1. 装了qemu，做了做rCore
+2. 搓了搓Java，把mybatis plus的通用枚举+注解验证打通
+
+### 2021/4/6
+
+1. rCore持续缓慢推进
+2. 试图rust刷leetcode，纯属ex自己（
+
 # 2020
 
 ## 11月
