@@ -578,6 +578,18 @@ categories: [
 1. rCore持续缓慢推进
 2. 试图rust刷leetcode，纯属ex自己（
 
+### 2021/4/9
+
+1. 持续写Java，巨大crud，学gitlab+spring的CI怎么搓
+
+2. 持续被rust ex，巨大多复杂概念
+
+   逆变、协变、不变概念指路：[逆变、协变与子类型，以及Rust](https://zhuanlan.zhihu.com/p/41814387)
+
+### 2021/4/10
+
+1. 去meetup，白嫖茶歇+star了一堆好东西
+
 # 2020
 
 ## 11月
