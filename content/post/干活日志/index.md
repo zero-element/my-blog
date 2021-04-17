@@ -520,23 +520,16 @@ categories: [
 ### 2021/3/18
 
 1. 重建博客server，发现浓眉大眼的`trustasia`也需要认证了，换到`certbot`+`let's encrypt`
-
    做了一些回落+ws，安全性++++
-
 2. 原来的博客是hugo本地编译再push整个public，并不文雅而且容易丢失原档
-
    改了一下git hook，把markdown拉到server上再编译
-
 3. 才发现rc.local过时了，当场拟合一下systemd的启动咋写
 
 ### 2021/3/19
 
 1. 尝试了很久使用snap的hugo，但snap的安全策略非常激进，手动配置app允许访问的路径非常困难
-
    要是这种东西取代apt的话还不如跑路arch（恼
-
 2. 重写webhook，顺便搓个dockerfile放进docker里跑，方便管理&安全性++
-
 3. 学spring boot
 
 ### 2021/3/22
@@ -581,9 +574,7 @@ categories: [
 ### 2021/4/9
 
 1. 持续写Java，巨大crud，学gitlab+spring的CI怎么搓
-
 2. 持续被rust ex，巨大多复杂概念
-
    逆变、协变、不变概念指路：[逆变、协变与子类型，以及Rust](https://zhuanlan.zhihu.com/p/41814387)
 
 ### 2021/4/10
@@ -593,7 +584,7 @@ categories: [
 ### 2021/4/17
 
 1. 本周被snarkjs+gitlab-ci持续折磨
-2. 放弃snarkjs改用zokrates，依旧被折磨半天
+2. 放弃snarkjs改用zokrates，依旧被折磨许久
 3. 把gitlab-ci的踩坑记了篇博客
 4. rCore持续挂起
 
