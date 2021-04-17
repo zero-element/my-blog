@@ -71,8 +71,8 @@ copy虚拟机快照后，修改主机名，ip地址和mac地址，防止冲突
    非sudo使用docker
 
    ```shell
-   newgrp docker
    sudo gpasswd -a zer0 docker
+   newgrp docker
    ```
 
 3. 内存交换会导致容器调度十分复杂，k8s放弃对其支持，需要关闭swap才能正常运行（可以强行开启）
