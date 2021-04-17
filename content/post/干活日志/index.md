@@ -590,6 +590,13 @@ categories: [
 
 1. 去meetup，白嫖茶歇+star了一堆好东西
 
+### 2021/4/17
+
+1. 本周被snarkjs+gitlab-ci持续折磨
+2. 放弃snarkjs改用zokrates，依旧被折磨半天
+3. 把gitlab-ci的踩坑记了篇博客
+4. rCore持续挂起
+
 # 2020
 
 ## 11月
