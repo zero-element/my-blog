@@ -1,6 +1,6 @@
-```
+---
 title: "使用gitlab-ci + docker-compose自动部署Spring Boot + Mysql项目"
-date: 2021-4-17
+date: 2021-04-17
 description: "日常踩坑"
 categories: [
   "开发"
@@ -8,7 +8,7 @@ categories: [
 tags: [
   "Docker"
 ]
-```
+---
 
 # 部署Runner
 
