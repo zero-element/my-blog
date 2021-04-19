@@ -10,7 +10,9 @@ tags: [
 ]
 ---
 
-rust练手+康复一些基础算法
+rust练手
+
+rust搓数据结构直接难度+1档，全麻
 
 # 滑动窗口的最大值 
 
@@ -70,6 +72,67 @@ impl Solution {
         let mut ans = 0;
         Self::search(root, k, &mut count, &mut ans);
         return ans;
+    }
+}
+```
+
+# 两两交换链表中的节点
+
+```rust
+// 递归法
+impl Solution {
+    pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+      head.and_then(|mut n| {
+        match n.next {
+          Some(mut m) => {
+            n.next = Self::swap_pairs(m.next);
+            m.next = Some(n);
+            Some(m)
+          },
+          None => Some(n)
+        }
+      })
+    }
+}
+```
+
+# 合并k个升序链表
+
+```rust
+// 迭代法，append时直接新开node
+// 内存大效率低，但逻辑简单
+use std::collections::BinaryHeap;
+use std::cmp::Reverse;
+impl Solution {
+    pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {
+        let mut heads = Vec::new();
+        let mut head: Option<Box<ListNode>> = None;
+        let mut tail = &mut head;
+        let mut heap = BinaryHeap::new();
+
+        for list in lists.iter() {
+            heads.push(list);
+        }
+        for (index, curHead) in lists.iter().enumerate() {
+            if let Some(curNode) = curHead {
+                heap.push((Reverse(curNode.val), index));
+                heads[index] = &curNode.next;
+            }
+        }
+        while let Some(minPair) = heap.pop() {
+            let new_node = Box::new(ListNode::new(minPair.0.0));
+            if let Some(curHead) = heads[minPair.1] {
+                heads[minPair.1] = &curHead.next;
+                heap.push((Reverse(curHead.val), minPair.1));
+            }
+            if let Some(last) = tail {
+                last.next = Some(new_node);
+                tail = &mut last.next;
+            } else {
+                *tail = Some(new_node);
+            }
+        }
+        head
     }
 }
 ```

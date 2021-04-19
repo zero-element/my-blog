@@ -38,7 +38,7 @@ PCP，全称Probabilistically Checkable Proof，意思就是，所有的NP问题
 
 $$
 \forall C: \exists \text{ Proof System } (S, P, V): \\
-S(C) \rightarrow (C, S_v)
+S(C) \rightarrow (S_p, S_v)
 $$
 S为生成算法Setup，把电路C转换成后续会用到的随机参数。
 
@@ -330,7 +330,7 @@ h_2 \\
 h_8
 \end{bmatrix}
 $$
-至此就完成了矩阵$A, B, C$到多项式$P, Q, R$的转化，大大降低了检验的运算量。当然，范德蒙矩阵求逆需要$O(n^2)$，和直接检验R1CS在效率上没有什么本质区别，因此实际中会采用FFT等更高效的方式来求解合适的多项式。
+至此就完成了矩阵$A, B, C$到多项式$P, Q, R$的转化，大大降低了检验的运算量。当然，范德蒙矩阵求逆需要$O(n^2)$，和直接检验R1CS在效率上没有什么本质区别，因此实际中会采用FFT等更高效的方式来求解合适的多项式，这里包括下面的矩阵运算仅是便于理解。
 
 #### 从QAP到LPCP
 
@@ -541,7 +541,7 @@ $$
 
 这一问题解决的方法也不难，我们需要修改一下LPCP协议，在中间多加上一个**随机线性检查（Random Linearity Check）**。
 
-在我们生成LPCP的Query$q_1^R, q_2^R, q_3^R$的时候，我们随机的选取$\alpha, \beta, \gamma$，然后额外的生成一个线性检查Query $q^* = \alpha q_1^R + \beta q_2^R + \gamma q_3^R$。我们把$q^∗$也发送给证明方，并且要求证明方提供$⟨q^∗,π⟩$的内积dd。
+在我们生成LPCP的Query$q_1^R, q_2^R, q_3^R$的时候，我们随机的选取$\alpha, \beta, \gamma$，然后额外的生成一个线性检查Query $q^* = \alpha q_1^R + \beta q_2^R + \gamma q_3^R$。我们把$q^∗$也发送给证明方，并且要求证明方提供$⟨q^∗,π⟩$的内积$d$。
 
 这样一来，最后验证方可以收到四个数字，即$a,b,c,d$。这个时候验证方就可以验证：
 $$
