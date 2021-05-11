@@ -137,3 +137,122 @@ impl Solution {
 }
 ```
 
+# 包含每个查询的最小区间
+
+BinaryHeap和BTreeMap嗯写的离线算法，效率有点拉跨，有功夫试试搓个线段树
+
+```rust
+use std::collections::{BinaryHeap, BTreeMap};
+use std::cmp::Reverse;
+
+impl Solution {
+    pub fn min_interval(intervals: Vec<Vec<i32>>, queries: Vec<i32>) -> Vec<i32> {
+        let mut event_heap = BinaryHeap::new();
+        let mut seg_num_map: BTreeMap<i32, i32> = BTreeMap::new();
+        let mut result: Vec<i32> = (1..=queries.len() as i32).collect();
+        for range in intervals {
+            let len = range[1] - range[0] + 1;
+            event_heap.push((Reverse(range[0]), 2, len));
+            event_heap.push((Reverse(range[1]), 0, len));
+        }
+        for (index, &query) in queries.iter().enumerate() {
+            event_heap.push((Reverse(query), 1, index as i32));
+        }
+
+        while let Some(event) = event_heap.pop() {
+            let len = event.2;
+            if event.1 == 2 {
+                if let Some(count) = seg_num_map.get_mut(&len) {
+                    *count += 1;
+                } else {
+                    seg_num_map.insert(len, 1);
+                }
+                continue;
+            }
+            if event.1 == 1 {
+                if let Some(kv) = seg_num_map.iter().next() {
+                    result[len as usize] = *kv.0;
+                } else {
+                    result[len as usize] = -1;
+                }
+                continue;
+            }
+            if event.1 == 0 {
+                if let Some(count) = seg_num_map.get_mut(&len) {
+                    if *count > 1 {
+                        *count -= 1;
+                    } else {
+                        seg_num_map.remove(&len);
+                    }
+                }
+            }
+        }
+        result
+    }
+}
+```
+
+# 有向图中最大颜色值
+
+懒得优化空间了，开了二维dp
+
+```rust
+use std::collections::{VecDeque};
+use std::cmp::max;
+
+impl Solution {
+    pub fn largest_path_value(colors: String, edges: Vec<Vec<i32>>) -> i32 {
+        struct node {
+            color: i32,
+            next: Vec::<usize>,
+            scale: i32,
+        }
+        let mut nodes: Vec::<node> = colors.chars().enumerate().map(|(index, char)|
+            node {
+                color: char as i32 - 'a' as i32,
+                next: vec![],
+                scale: 0,
+            }
+        ).collect();
+
+        let mut res = 1;
+        for edge in edges {
+            nodes[edge[0] as usize].next.push(edge[1] as usize);
+            nodes[edge[1] as usize].scale += 1;
+        }
+
+        let mut deque: VecDeque<usize> = VecDeque::new();
+        let mut dp = vec![[0i32; 30]; colors.len()];
+        let mut count = 0;
+
+        for index in 0..nodes.len() {
+            dp[index][nodes[index].color as usize] = 1;
+            if nodes[index].scale == 0{
+                deque.push_back(index);
+                count += 1;
+            }
+        }
+
+        while let Some(node_index) = deque.pop_front() {
+            for next in nodes[node_index].next.clone() {
+                nodes[next].scale -= 1;
+                if nodes[next].scale == 0 {
+                    deque.push_back(next);
+                    count += 1;
+                }
+                for index in 0..26 {
+                    dp[next][index] = max(dp[next][index], dp[node_index][index] + (nodes[next].color == index as i32) as i32);
+                    res = max(res, dp[next][index]);
+                }
+            }
+
+        }
+
+        if count != colors.len() {
+            return -1;
+        }
+        res
+    }
+}
+```
+
