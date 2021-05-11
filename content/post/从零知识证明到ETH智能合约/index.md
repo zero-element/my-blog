@@ -1,8 +1,9 @@
 ---
 title: "从零知识证明到ETH智能合约"
 date: 2021-04-17
-draft: true
-description: "很好玩，又有点难玩，这是个哲学"
+draft: false
+math: true
+description: "很好玩"
 categories: [
   "开发"
 ]
@@ -23,7 +24,7 @@ tags: [
 
 #### 简单的例子
 
-![alibaba](.\alibaba.jpg)
+![alibaba](alibaba.jpg)
 
 > 1.强盗在A点站立，并让阿里巴巴走到B点，阿里巴巴随机的从左右两个方向进入洞穴，因此阿里巴巴可能到达C处，也可能到达D处
 > 2.强盗走到B点，并随机让阿里巴巴从左边或从右边出来。如果阿里巴巴拥有密门的咒语，那么无论他现在在C点或者是在D点都可以按照强盗的指令从正确的方向走出洞穴；但如果阿里巴巴如果没有密门的咒语，那么他只有$\frac{1}{2}$的可能从正确的方向出来
@@ -34,15 +35,14 @@ tags: [
 
 PCP，全称Probabilistically Checkable Proof，意思就是，所有的NP问题，都可以在多项式时间内通过概率验证的方法被证明。
 
-因为**所有的NP问题都可以有效地转换为数学运算电路**，PCP定理指出，对于所有的电路![[公式]](https://www.zhihu.com/equation?tex=C)，我们都可以构造一套概率验证体系![[公式]](https://www.zhihu.com/equation?tex=%28S%2C+P%2C+V%29)，其工作方式如下：
+因为**所有的NP问题都可以有效地转换为数学运算电路**，PCP定理指出，对于所有的电路$C$，我们都可以构造一套概率验证体系$(S, P, V)$，其工作方式如下：
 
 $$
-\forall C: \exists \text{ Proof System } (S, P, V): \\
-S(C) \rightarrow (S_p, S_v)
+\forall C: \exists \text{ Proof System } (S, P, V): \\\\ S(C) \rightarrow (S_p, S_v)
 $$
 S为生成算法Setup，把电路C转换成后续会用到的随机参数。
 
-![img](.\证明体系.png)
+![img](证明体系.png)
 
 > 证明方通过公有和私密输入生成一个证明$\pi$，并且把证明$\pi$**存入只读区域后共享给验证方查看**（只读区域可以防止双方篡改证明内容）。**唯一不同的是验证方并不能看到所有的$\pi$，只能通过一个query机制来检查这个证明$\pi$随机的$k$位数**。通过看完这$k$位数之后，验证方就需要输出验证结果。
 
@@ -56,11 +56,11 @@ $$
 $$
 $\vec{z}$表示程序的变量($x_i$)和输入($w_i$)，其中添加了作为常数使用的1
 $$
-\vec{z} = \begin{bmatrix}1\\x_i\\..\\w_i\end{bmatrix}
+\vec{z} = \begin{bmatrix}1\\\\x_i\\\\..\\\\w_i\end{bmatrix}
 $$
 $\circ$表示逐项积，即
 $$
-A = \begin{bmatrix}a_{11} & a_{12} \\ a_{21} & a_{22} \\ a_{31} & a_{32}\end{bmatrix}, \  B = \begin{bmatrix}b_{11} & b_{12} \\ b_{21} & b_{22} \\ b_{31} & b_{32}\end{bmatrix}, \ C = A \circ B = \begin{bmatrix}a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \\ a_{31} \cdot b_{31} & a_{32} \cdot b_{32}\end{bmatrix}
+A = \begin{bmatrix}a_{11} & a_{12} \\\\ a_{21} & a_{22} \\\\ a_{31} & a_{32}\end{bmatrix}, \  B = \begin{bmatrix}b_{11} & b_{12} \\\\ b_{21} & b_{22} \\\\ b_{31} & b_{32}\end{bmatrix}, \ C = A \circ B = \begin{bmatrix}a_{11} \cdot b_{11} & a_{12} \cdot b_{12} \\\\ a_{21} \cdot b_{21} & a_{22} \cdot b_{22} \\\\ a_{31} \cdot b_{31} & a_{32} \cdot b_{32}\end{bmatrix}
 $$
 通过R1CS，可以表达一种规则简单的一阶方程组，其中的方程形如$(2 \cdot x_1 + 5 \cdot x_2) \cdot (x_1 - 1) = 0$此类
 
@@ -90,49 +90,28 @@ sym_2 = y + x
 
 我们假设要**证明一下某个电路的私密输入$w$的值在0到15之间**，由于R1CS仅能提供相等约束，所以这里的思想类似数电的构造逻辑电路，按位拆分判断
 $$
-2^0 \cdot w_0 + 2^1 \cdot w_1 + 2^2 \cdot w_2 + 2^3 \cdot w_3 - w = 0 \\
-w_0 \cdot (w_0 - 1) = 0 \\
-w_1 \cdot (w_1 - 1) = 0 \\
-w_2 \cdot (w_2 - 1) = 0 \\
-w_3 \cdot (w_3 - 1) = 0
+2^0 \cdot w_0 + 2^1 \cdot w_1 + 2^2 \cdot w_2 + 2^3 \cdot w_3 - w = 0 \\\\ w_0 \cdot (w_0 - 1) = 0 \\\\ w_1 \cdot (w_1 - 1) = 0 \\\\ w_2 \cdot (w_2 - 1) = 0 \\\\ w_3 \cdot (w_3 - 1) = 0
 $$
 $w_i$是$w$的按位拆分，而这里的输入$\vec{z}$即为
 $$
 \vec{z} = 
 \begin{bmatrix}
-1 \\
-w \\
-w_0 \\
-w_1 \\
-w_2 \\
-w_3
+1 \\\\ w \\\\ w_0 \\\\ w_1 \\\\ w_2 \\\\ w_3
 \end{bmatrix}
 $$
 进而得到矩阵$A,B,C$
 $$
 A = 
 \begin{bmatrix}
-0 & -1 & 1 & 2 & 4 & 8 \\
-0 & 0 & 1 & 0 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 0 & 1
+0 & -1 & 1 & 2 & 4 & 8 \\\\ 0 & 0 & 1 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 1
 \end{bmatrix}, \ 
 B = 
 \begin{bmatrix}
-1 & 0 & 0 & 0 & 0 & 0 \\
--1 & 0 & 1 & 0 & 0 & 0 \\
--1 & 0 & 0 & 1 & 0 & 0 \\
--1 & 0 & 0 & 0 & 1 & 0 \\
--1 & 0 & 0 & 0 & 0 & 1
+1 & 0 & 0 & 0 & 0 & 0 \\\\ -1 & 0 & 1 & 0 & 0 & 0 \\\\ -1 & 0 & 0 & 1 & 0 & 0 \\\\ -1 & 0 & 0 & 0 & 1 & 0 \\\\ -1 & 0 & 0 & 0 & 0 & 1
 \end{bmatrix}, \ 
 C = 
 \begin{bmatrix}
-0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0
 \end{bmatrix}
 $$
 这样，我们得到了一个最简单的$S(C)$，只要证明者将自己的“证明”$\vec{z}$传给验证者，验证者将其带入矩阵$A,B,C$检验方程的解，即可确认证明。当然，目前为止这个证明既不“零知识”（验证者可以在 $\vec{z}$中查看所有的私密输入$w$），也不高效（需要通过$O(n^{2.X})$的矩阵运算检验全部约束），需要一点点来完善。
@@ -153,7 +132,7 @@ $$
 
 如果说PCP形容的是所有NP范围内的问题都可以通过简短的随机抽验来验证，LPCP则是说**任意一个$d$阶的多项式$P$，都可以通过随机验证多项式在几个点上取值来确定这个多项式的每一项系数是否满足特定的要求**。
 
-![LCPC](.\LCPC.webp)
+![LCPC](LCPC.png)
 
 $f(x)=x^3–6x^2+11x–6$与$f(x)=x^3–6x^2+10x–5$相比，仅修改了一个系数，但两条曲线之间差别很大。根据代数基本定理，**两个$d$阶的不同系数的多项式，在所有整数范围$F$内，最多也只会有$d$个点重合**。所以，只要我们取出少量的点检验多项式的值是否符合预期，即可检验整个多项式是否满足要求，进而证明该多项式的全部系数均符合性质。这样，只要能够以某种方式把R1CS得到的$A \cdot \vec{z}, B \cdot \vec{z}, C \cdot \vec{z}$三个矩阵转换为多项式$P, Q, R$，就能通过计算多项式上某点的值快速地检验整个约束方程的正确性。（当然，谁来算，怎么防止作弊，还是一个问题）
 
@@ -173,234 +152,89 @@ $f(x)=x^3–6x^2+11x–6$与$f(x)=x^3–6x^2+10x–5$相比，仅修改了一个
 $$
 A \cdot \vec{z} = 
 \begin{bmatrix}
-0 & -1 & 1 & 2 & 4 & 8 \\
-0 & 0 & 1 & 0 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 0 & 1
-\end{bmatrix}
-\cdot
+0 & -1 & 1 & 2 & 4 & 8 \\\\ 0 & 0 & 1 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix} \cdot
 \begin{bmatrix}
-1 \\
-w \\
-w_0 \\
-w_1 \\
-w_2 \\
-w_3
-\end{bmatrix}
-=
+1 \\\\ w \\\\ w_0 \\\\ w_1 \\\\ w_2 \\\\ w_3
+\end{bmatrix} =
 \begin{bmatrix}
--w + w_0 + 2w_1 + 4w_2 + 8w_3 \\
-w_0 \\
-w_1 \\
-w_2 \\
-w_3
+-w + w_0 + 2w_1 + 4w_2 + 8w_3 \\\\ w_0 \\\\ w_1 \\\\ w_2 \\\\ w_3
 \end{bmatrix}
 $$
 可以构造$P$为
 $$
-\exists P(x) = f_0 + f_1 \cdot x + f_2 \cdot x^2 + f_3 \cdot x^3 + f_4 \cdot x^4 : \\
+\exists P(x) = f_0 + f_1 \cdot x + f_2 \cdot x^2 + f_3 \cdot x^3 + f_4 \cdot x^4 : \\\\ 
 \begin{bmatrix}
-P(1) \\
-P(2) \\
-P(3) \\
-P(4) \\
-P(5) \\
-\end{bmatrix}
-=
+P(1) \\\\ P(2) \\\\ P(3) \\\\ P(4) \\\\ P(5)
+\end{bmatrix} =
 \begin{bmatrix}
-1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\
-1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\
-1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\
-1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\
-1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
-\end{bmatrix}
-\times
+1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\\\ 1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\\\ 1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\\\ 1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\\\ 1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
+\end{bmatrix} \times
 \begin{bmatrix}
-f_0 \\
-f_1 \\
-f_2 \\
-f_3 \\
-f_4
-\end{bmatrix}
-=
+f_0 \\\\ f_1 \\\\ f_2 \\\\ f_3 \\\\ f_4
+\end{bmatrix} =
 \begin{bmatrix}
--w + w_0 + 2w_1 + 4w_2 + 8w_3 \\
-w_0 \\
-w_1 \\
-w_2 \\
-w_3
+-w + w_0 + 2w_1 + 4w_2 + 8w_3 \\\\ w_0 \\\\ w_1 \\\\ w_2 \\\\ w_3
 \end{bmatrix}
 $$
 进而使用范德蒙逆矩阵计算多项式$P$的各项系数
 $$
 \begin{bmatrix}
-1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\
-1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\
-1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\
-1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\
-1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
-\end{bmatrix}^{-1}
-\times
+1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\\\ 1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\\\ 1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\\\ 1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\\\ 1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
+\end{bmatrix}^{-1} \times
 \begin{bmatrix}
--w + w_0 + 2w_1 + 4w_2 + 8w_3 \\
-w_0 \\
-w_1 \\
-w_2 \\
-w_3
-\end{bmatrix}
-=
+-w + w_0 + 2w_1 + 4w_2 + 8w_3 \\\\ w_0 \\\\ w_1 \\\\ w_2 \\\\ w_3
+\end{bmatrix} =
 \begin{bmatrix}
-f_0 \\
-f_1 \\
-f_2 \\
-f_3 \\
-f_4
+f_0 \\\\ f_1 \\\\ f_2 \\\\ f_3 \\\\ f_4
 \end{bmatrix}
 $$
 对$B \cdot \vec{z}$同理
 $$
-\exists Q(x) = g_0 + g_1 \cdot x + g_2 \cdot x^2 + g_3 \cdot x^3 + g_4 \cdot x^4 : \\
-Q(1) = 1 \\
-Q(2) = w_0 - 1 \\
-Q(3) = w_1 - 1 \\
-Q(4) = w_2 - 1 \\
-Q(5) = w_3 - 1 \\ \ \\
+\exists Q(x) = g_0 + g_1 \cdot x + g_2 \cdot x^2 + g_3 \cdot x^3 + g_4 \cdot x^4 : \\\\ Q(1) = 1 \\\\ Q(2) = w_0 - 1 \\\\ Q(3) = w_1 - 1 \\\\ Q(4) = w_2 - 1 \\\\ Q(5) = w_3 - 1
 \begin{bmatrix}
-1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\
-1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\
-1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\
-1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\
-1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
-\end{bmatrix}^{-1}
-\times
+1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\\\ 1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\\\ 1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\\\ 1 & 4 & 4^2 & 4^3 & 4^4 & 4^5 \\\\ 1 & 5 & 5^2 & 5^3 & 5^4 & 5^5
+\end{bmatrix}^{-1} \times
 \begin{bmatrix}
-1 \\
-w_0 - 1 \\
-w_1 - 1 \\
-w_2 - 1 \\
-w_3 - 1
-\end{bmatrix}
-=
+1 \\\\ w_0 - 1 \\\\ w_1 - 1 \\\\ w_2 - 1 \\\\ w_3 - 1
+\end{bmatrix} =
 \begin{bmatrix}
-g_0 \\
-g_1 \\
-g_2 \\
-g_3 \\
-g_4
+g_0 \\\\ g_1 \\\\ g_2 \\\\ g_3 \\\\ g_4
 \end{bmatrix}
 $$
 对$C \cdot \vec{z}$，如方才提到，需要额外取点$[n+1, 2n]$补充
 $$
-\exists R(x) = h_0 + h_1 \cdot x + h_2 \cdot x^2 + \dots + h_8 \cdot x^8 : \\
-Q(1) = 0 \\
-Q(2) = 0 \\
-Q(3) = 0 \\
-Q(4) = 0 \\
-Q(5) = 0 \\
-Q(6) = P(6) \cdot Q(6) \\
-Q(7) = P(7) \cdot Q(7) \\
-Q(8) = P(8) \cdot Q(8) \\
-Q(9) = P(9) \cdot Q(9) \\ \ \\
+\exists R(x) = h_0 + h_1 \cdot x + h_2 \cdot x^2 + \dots + h_8 \cdot x^8 : \\\\ Q(1) = 0 \\\\ Q(2) = 0 \\\\ Q(3) = 0 \\\\ Q(4) = 0 \\\\ Q(5) = 0 \\\\ Q(6) = P(6) \cdot Q(6) \\\\ Q(7) = P(7) \cdot Q(7) \\\\ Q(8) = P(8) \cdot Q(8) \\\\ Q(9) = P(9) \cdot Q(9)
 \begin{bmatrix}
-1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\
-1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\
-1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\
-\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-1 & 9 & 9^2 & 9^3 & 9^4 & 9^5
-\end{bmatrix}^{-1}
-\times
+1 & 1 & 1^2 & 1^3 & 1^4 & 1^5 \\\\ 1 & 2 & 2^2 & 2^3 & 2^4 & 2^5 \\\\ 1 & 3 & 3^2 & 3^3 & 3^4 & 3^5 \\\\ \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\\\ 1 & 9 & 9^2 & 9^3 & 9^4 & 9^5
+\end{bmatrix}^{-1} \times
 \begin{bmatrix}
-0 \\
-0 \\
-0 \\
-0 \\
-0 \\
-P(6) \cdot Q(6) \\
-P(7) \cdot Q(7) \\
-P(8) \cdot Q(8) \\
-P(9) \cdot Q(9)
-\end{bmatrix}
-=
+0 \\\\ 0 \\\\ 0 \\\\ 0 \\\\ 0 \\\\ P(6) \cdot Q(6) \\\\ P(7) \cdot Q(7) \\\\ P(8) \cdot Q(8) \\\\ P(9) \cdot Q(9)
+\end{bmatrix} =
 \begin{bmatrix}
-h_0 \\
-h_1 \\
-h_2 \\
-\vdots \\
-h_8
+h_0 \\\\ h_1 \\\\ h_2 \\\\ \vdots \\\\ h_8
 \end{bmatrix}
 $$
-至此就完成了矩阵$A, B, C$到多项式$P, Q, R$的转化，大大降低了检验的运算量。当然，范德蒙矩阵求逆需要$O(n^2)$，和直接检验R1CS在效率上没有什么本质区别，因此实际中会采用FFT等更高效的方式来求解合适的多项式，这里包括下面的矩阵运算仅是便于理解。
+至此就完成了矩阵$A, B, C$到多项式$P, Q, R$的转化，大大降低了检验的运算量。当然，范德蒙矩阵求逆需要$O(n^2)$，和直接检验R1CS在效率上没有什么本质区别，因此实际中会采用FFT等更高效的方式来求解合适的多项式，这里包括下文采取矩阵运算仅是便于理解算法流程。
 
 #### 从QAP到LPCP
 
+~~hugo的latex支持过于拉胯~~
+
 对于上面的QAP构造，我们可以优化一下计算的过程：
-$$
-\begin{align*}
-f(r) &=
-\begin{bmatrix}
-1 & r^2 & ... & r^{m-1}
-\end{bmatrix}
-\begin{bmatrix}
-f_0 \\ f_1 \\ \vdots \\ f_{m-1}
-\end{bmatrix}\\
-&= 
-\begin{bmatrix}
-1 & r^2 & ... & r^{m-1}
-\end{bmatrix}
-V^{-1}
-\begin{bmatrix}
-f(0) \\ f(1)\\
-\vdots\\ f(m-1)
-\end{bmatrix}
-\\ &= \begin{bmatrix}
-1 & r^2 & ... & r^{m-1}
-\end{bmatrix}
-V^{-1}
-(A \cdot \vec{z})
-\end{align*}
-$$
+
+![latex_1](latex_1.png)
+
 一旦转换成最后形态的表达式之后，我们马上可以发现，由于$V$与R1CS矩阵$A$是证明方和验证方都公开的内容，$r$是验证方选择的随机抽验的取值点，所以我们可以把整个表达式分成**两个部分**：
-$$
-\begin{align*}
-f(r) &= (\begin{bmatrix}
-1 & r^2 & ... & r^{m-1}
-\end{bmatrix}
-V^{-1}
-A) \cdot \vec{z} = \langle q_1, z \rangle\\
-q_1 &= \begin{bmatrix}
-1 & r^2 & ... & r^{m-1}
-\end{bmatrix}
-V^{-1}
-A
-\end{align*}
-$$
+
+![latex_2](latex_2.png)
+
 左边部分我们用一个向量$q$来表示，代表证明方想要验证的**query**。右边部分就是包含了证明电路中公有和私密输入的矩阵$z$。对于多项式$g$，我们也如法炮制，得到另一对**内积组合**$\langle q_2, z \rangle$。
 
 最后对于多项式$h$，我们进行类似的操作。为了让整体的维度保持一致，我们需要**额外加上一组单位矩阵**：
-$$
-\begin{align*}
-h(r) &= \begin{bmatrix}
-1 & r^2 & ... & r^{2m-1}
-\end{bmatrix}
-V^{-1}
-\begin{bmatrix}
-C\\ I_{m-1}
-\end{bmatrix}
-\cdot 
-\begin{bmatrix}
-\vec{z}\\ h(m+1)\\ \vdots\\ h(2m-1)
-\end{bmatrix}
-= \langle q_3, [z, h(m+1), ..., h(2m-1)] \rangle\\
-q_3 &= \begin{bmatrix}
-1 & r^2 & ... & r^{2m-1}
-\end{bmatrix}
-V^{-1}
-\begin{bmatrix}
-C\\ I_{m-1}
-\end{bmatrix}
-\end{align*}
-$$
+
+![latex_3](latex_3.png)
+
 当我们成功的把多项式随机取值问题分解为三个query向量$q1,q2,q3$之后，我们就可以**正式地进入真正的LPCP验证协议了**。
 
 1. 首先，**证明方Prover**事先计算好证明$\pi = [w, h(m+1), ..., h(2m-1)]$，并且把证明保存起来，不许修改它。
@@ -411,16 +245,16 @@ $$
 
 3. 这三个Query需要和我们原本的输入向量$z = \begin{bmatrix}1\\ x\\ w \end{bmatrix}$相乘。我们观察这个向量之后发现，验证方事先已经可以得知向量的上半部分$\begin{bmatrix}1\\ x\end{bmatrix}$。所以验证方可以把Query向量$q_i$进行切割，变成$[q_i^L, q_i^R]$两部分。这样的话，原本的计算也可以一分为二，然后把两部分的内积分别对叠起来：
 
-$\langle q_i, z \rangle = \begin{bmatrix} \langle q_i^L, \begin{bmatrix}1\\x\end{bmatrix} \rangle\\ \langle q_i^R, \begin{bmatrix}w\end{bmatrix} \rangle\end{bmatrix}$
+$$
+\langle q_i, z \rangle = \begin{bmatrix} \langle q_i^L, \begin{bmatrix}1\\\\x\end{bmatrix} \rangle\\\\ \langle q_i^R, \begin{bmatrix}w\end{bmatrix} \rangle\end{bmatrix}
+$$
 
 1. 通过这一步切割，我们发现对于$q_i^L$部分的计算，验证方**已经全部知道了**，所以我们可以**进一步的优化证明方需要做的计算**，只把$q_i^R$发送给证明方，让证明方仅仅与私密输入$w$相乘。
 2. 综上所述，验证方现在可以发送$q_1^R, q_2^R, q_3^R$三个query向量给证明方。
 3. 证明方收到query向量之后，**只需要把每个值和自己的证明向量$\pi$相乘**。
 
 $$
-a = \langle [q_1^R 0^{m-1}], \pi \rangle\\
-b = \langle [q_2^R 0^{m-1}], \pi \rangle\\
-c = \langle q_3^R, \pi \rangle\\
+a = \langle [q_1^R 0^{m-1}], \pi \rangle\\\\ b = \langle [q_2^R 0^{m-1}], \pi \rangle\\\\ c = \langle q_3^R, \pi \rangle
 $$
 
 由于证明向量$\pi$后面还带了多项式$h$的额外$m−1$个取值点，所以我们需要在$q_1^R, q_2^R$的背后**补上一个空白矩阵**，才可以适配矩阵相乘的维度。
@@ -441,13 +275,13 @@ $$
 
 ~~虽然这里用不到，但是merkle tree是一个匿名货币中非常常用的技术~~
 
-![merkle tree](.\merkle tree.png)
+![merkle tree](merkle tree.png)
 
 **Merkle Tree**是一种二叉哈希树，构建方式如上，常用于检验数据的完整性——其优势在于不需要下载完整的数据或者merkle tree，便可检验一个数据块是否属于整个数据。
 
 ##### Merkle证明
 
-![merkle proof](.\merkle proof.png)
+![merkle proof](merkle proof.png)
 
 当需要证明数据`64`存在于整个数据块中时，仅需要传递merkle tree中每层的兄弟节点，即可自下向上计算出根节点`6c0a`。基于哈希的抗碰撞性，只要根节点`6c0a`对双方预先公开，攻击者就无法伪造其中的merkle路径。
 
@@ -485,9 +319,7 @@ $$
 2. 证明方准备好自己的证明向量$\pi = [w, h(m+1), ..., h(2m-1)]$，然后从CRS中取出Query向量的右半部分，即$q_1^R, q_2^R, q_3^R$。随后分别和自己的证明向量相乘，得到我们要的$a,b,c$三个值。
 
 $$
-a = \langle [q_1^R 0^{m-1}], \pi \rangle\\
-b = \langle [q_2^R 0^{m-1}], \pi \rangle\\
-c = \langle q_3^R, \pi \rangle\\
+a = \langle [q_1^R 0^{m-1}], \pi \rangle\\\\ b = \langle [q_2^R 0^{m-1}], \pi \rangle\\\\ c = \langle q_3^R, \pi \rangle
 $$
 
 3. 证明方把$a,b,c$发送给验证方。
@@ -528,8 +360,7 @@ $$
 
 同时，因为我们选择的循环群拥有**配对操作**，所以我们可以非常轻松的验证密文的乘积是否相等。
 $$
-x_1 \cdot x_2 \stackrel{?}{=} \alpha \cdot x_3\\
-e(g^{x_1}, g^{x_2}) = g^{x_1 x_2}_T \stackrel{?}{=} g^{\alpha x_3}_T = e(g, (g^c)^\alpha)
+x_1 \cdot x_2 \stackrel{?}{=} \alpha \cdot x_3\\\\ e(g^{x_1}, g^{x_2}) = g^{x_1 x_2}_T \stackrel{?}{=} g^{\alpha x_3}_T = e(g, (g^c)^\alpha)
 $$
 有了线性加密系统之后，我们之前在尝试无交互LPCP的时候遇到的作弊问题就引刃而解了。
 
@@ -565,11 +396,11 @@ $$
 
 ### Solidity
 
-编写ETH智能合约的DSL
+用于编写ETH智能合约的DSL
 
 ### Remix
 
-编写ETH智能合约的一个在线IDE
+编写ETH智能合约的一个在线IDE，可以使用本地JS VM/测试链调试合约
 
 ### MetaMask
 
@@ -577,13 +408,14 @@ Chrome钱包插件
 
 ### Zokrates
 
-编写zk-SNARK的DSL，可以自动生成Solidity代码
+编写zk-SNARK的DSL，可以编译生成Solidity代码
 
 # 安全问题
 
 ## 输入假名
 
+参见：[输入假名](https://zhuanlan.zhihu.com/p/75632029)
 
+![semaphore.jpg](semaphore.jpg)
 
-<img src=".\semaphore.jpg" alt="semaphore" style="zoom:50%;" />
-
+成因很简单——选取的模数域小于Solidity的整数范围但没有检验输入的大小，因而导致多个不同的输入取模后相等，导致双花攻击。
