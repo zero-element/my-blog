@@ -2,6 +2,7 @@
 title: "干活日志"
 date: 2020-11-25
 description: "记录一下每天干了啥"
+draft: true
 categories: [
   "折腾"
 ]
