@@ -16,27 +16,23 @@ tags: [
 
 ~~菜鸟教程害人不浅~~
 
-上手发现各种教程博客都用的是vscode，但是细细一看眉头一皱，发现事情并不简单。
+常见的各种教程博客推荐的IDE基本都是vscode，但是体验过后发现存在很多问题：
 
-vscode里的`rust language server`，可以说是这么多语言里第一个让我觉得难用的：没有snippet，不能自动配置`task.json`和`launch.json`，甚至使用`MSVC`工具链调试的时候会有神秘错误，原因是rls自动生成了一个随机的调试路径，但是没有把MSVC中的库自动拷贝过去。
+1. vscode里的`rust language server`功能匮乏：没有snippet，不能自动配置`task.json`和`launch.json`，甚至使用`MSVC`工具链调试的时候会有神秘错误，原因是rls自动生成了一个随机的调试路径，但是没有把MSVC中的库自动拷贝过去。
 
-虽然可以在`lauch.json`中配置map映射相关目录，但是由于无法预测rls自动生成的哈希目录名，这种做法也只能在第一次报错之后，针对报错路径进行相应配置。
+   解决方案：可以在`lauch.json`中配置map映射相关目录，但是由于无法预测rls自动生成的哈希目录名，这种做法也只能在第一次报错之后，针对报错路径进行相应配置。
 
-甚至调试的时候还会自动把`println!`宏展开（貌似）。
+2. debug单步可能跟入汇编代码
 
-这些bug在github上的issue已经有一年多了，仍然处于open没有修复。生态可以说是很差了，不知道为什么那么多教程推荐vscode。
+**仅代表当时情况，rls现已经历大量更新，体验有所好转**
 
-**最后吃了室友的安利去试了下`CLion`，自带rust插件，类型推断体验极佳，写起来十分丝滑，好评。**
-
-[Clion下载](https://www.jetbrains.com/clion/download/download-thanks.html)
-
-[JetBrains全家桶注册补丁](https://github.com/2293736867/JetBrainsActivation)
+因此推荐使用`CLion`，自带rust插件，类型推断体验极佳，十分丝滑&好评。
 
 ### 工具链配置
 
-因为主力环境是在win下，初步使用来看`GNU`调试的时候似乎容易跳进汇编里，`MSVC`出现的问题相对更少，所以默认使用的是`MSVC`工具链，可以在使用`rustup‑init.exe`安装工具链的时候直接选好。
+因为主力环境是在win下，所以默认使用`MSVC`工具链，可以在使用`rustup‑init.exe`安装工具链的时候进行指定。
 
-当然如果某个项目需要切换到GNU的时候可以用`rustup`为这个项目单独指定工具链。
+如果某个项目需要单独切换到`GNU`的时候可以用`rustup`为这个项目单独指定工具链。
 
 ```powershell
 rustup install stable-x86_64-pc-windows-gnu 		#如果没装gnu的话初次进行安装
@@ -46,7 +42,7 @@ rustup override set stable-x86_64-pc-windows-gnu
 rustup target list
 ```
 
-编译和调试环境`CLion`都会自动配置，一键运行非常丝滑。
+`CLion`提供Rust编译和调试环境的自动配置，可以在Setting中进行设置。
 
 ### cargo换源
 
@@ -62,17 +58,17 @@ registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 
 # 语法和概念
 
-基本语法类C，可速览菜鸟教程（不要细看
+语法和概念非常复杂，同时提供较强的FP和OO支持，详细特性及语法移步[rust圣经](http://120.78.128.153/rustbook/ch03-01-variables-and-mutability.html)，建议配合[rustlings](https://github.com/rust-lang/rustlings)进行同步练习
 
-以下大致是对[rust圣经](http://120.78.128.153/rustbook/ch03-01-variables-and-mutability.html)的一些总结
+以下是一些大致总结
 
 ### 基本语法
 
-1. 变量通过`let`关键字声明且默认不可变，可变变量需要使用`let mut`声明
+1. 变量通过`let`关键字声明且默认不可变（静态），可变变量需要使用`let mut`声明
 
    不可变变量与常量区别在于，变量可以接受表达式进行赋值
 
-2. 除基础数据类型，有数组（支持切片），元组（支持解构赋值），vector等
+2. 除基础数据类型，有数组（本质切片，成员相同类型），元组（支持解构赋值，成员可不同类型），vector等
 
 3. 支持箭头函数，嵌套定义函数，**代码块以结尾无分号语句作为返回值**
 

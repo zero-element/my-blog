@@ -2,7 +2,7 @@
 title: "干活日志"
 date: 2020-11-25
 description: "记录一下每天干了啥"
-draft: true
+draft: false
 categories: [
   "折腾"
 ]
@@ -13,6 +13,20 @@ categories: [
 # 2021
 
 ## 5月
+
+### 2021/5/24
+
+1. Lua实现操作redis sorted set，后续实现cluster支持&2PC支持
+2. 学习各种CC算法
+
+### 2021/5/21
+
+1. 做项目，学了lua
+
+### 2021/5/17
+
+1. 活着考完了数电，大力补ddl
+2. 读tikv
 
 ### 2021/5/11
 
