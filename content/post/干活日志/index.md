@@ -12,6 +12,22 @@ categories: [
 
 # 2021
 
+## 8月
+
+### 2021/8/28
+
+1. 开一整天会
+2. 继续修filebrowser，调imagick将raw图片转换为前端支持的格式
+
+### 2021/8/27
+
+1. 写点leetcode热手
+2. 按需求给[filebrowser](https://github.com/filebrowser/filebrowser)添加CR2的预览功能，dlv远程调了一下执行流
+
+### 2021/8/26
+
+1. 开始tinykv，过了project1，重新搭了下linux开发环境
+
 ## 5月
 
 ### 2021/5/24

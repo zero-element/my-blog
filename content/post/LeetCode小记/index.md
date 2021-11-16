@@ -256,3 +256,35 @@ impl Solution {
 }
 ```
 
+# 高精度加法
+
+```rust
+use std::iter;
+use std::mem::swap;
+
+impl Solution {
+    pub fn add_strings(num1: String, num2: String) -> String {
+        let mut iter1 = num1.chars().into_iter().rev();
+        let mut iter2 = num2.chars().into_iter().rev();
+        //num1 is longer
+        if num1.len() < num2.len() {
+            swap(&mut iter1, &mut iter2);
+        }
+        let iter1 = iter1.map(|c| c as i32 - '0' as i32);
+        let iter2 = iter2.map(|c| c as i32 - '0' as i32);
+
+        let mut carry = 0;
+        let mut result = iter1.zip(iter2.chain(iter::repeat(0))).map(|(a, b)| {
+            let mut sum = a + b + carry;
+            carry = if sum >= 10 { 1 } else { 0 };
+            sum = if sum >= 10 { sum - 10 } else { sum };
+            return sum.to_string();
+        }).collect::<String>();
+        if carry > 0 {
+            result.push('1');
+        }
+        return result.chars().into_iter().rev().collect();
+    }
+}
+```
+
