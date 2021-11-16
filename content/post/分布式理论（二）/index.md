@@ -2,6 +2,7 @@
 title: "分布式理论（二）：一致性"
 date: 2021-09-27
 draft: false
+math: true
 categories: [
   "开发"
 ]
