@@ -19,9 +19,9 @@ tags: [
 
 `ACID`是指数据库系统中，为保证数据库事务正确性所必须具备的四个性质：[原子性](https://zh.wikipedia.org/w/index.php?title=原子性&action=edit&redlink=1)（atomicity）、[一致性](https://zh.wikipedia.org/wiki/一致性_(数据库))（consistency）、[隔离性](https://zh.wikipedia.org/wiki/隔離性)（isolation）、[持久性](https://zh.wikipedia.org/w/index.php?title=持久性&action=edit&redlink=1)（durability）。这个概念描述的是数据库系统在事务中的数据和状态转移满足容错约束，故而其中一致性要求的是：在执行事务的过程中，数据必须始终满足预设条件。其实更多情况下这是一种业务逻辑的保证，比如，借贷业务中借款和贷款的总额必须始终相等。~~有说法是C最早就是拿来给ACID凑个单词的~~
 
-`CAP`讨论的是对单一对象读写的分布式系统，这里的一致性要求集群内通过数据复制等方法解决节点间的数据差异，但并不涉及多对象的事务，尤其是`CAP`定理中的一致性C特指[线性一致性](#linearizable线性一致性)，关于这点会在下文中详细讨论。
+`CAP`定理讨论的是为单一对象提供读写操作的分布式系统，这里的一致性要求集群内通过数据复制等方法解决节点间的数据差异，但并不涉及多对象的事务。特别的，`CAP`定理中的一致性C特指[线性一致性](#linearizable线性一致性)。关于`CAP`的详细内容会在[CAP与PACELC](#cap与pacelc)中进一步讨论。
 
-另外，传统单机数据库大体上并不需要处理分布式系统中的种种网络故障；当然考虑到现代多核CPU的缓存模型，数据库的多核并发事务控制需要基于`TSO(Total Store Order)`模型或`Relaxed Memory Consistency`做额外的设计，使用`memory fence`保证数据在核心之间的一致性。同样的，在更大的集群尺度上，分布式数据库的事务隔离也需要依赖节点间的一致性模型和同步原语实施多对象的协调。~~套娃了属于是~~
+此外，传统单机数据库大体上并不需要处理分布式系统中的种种网络故障；当然考虑到现代多核CPU的缓存模型，数据库的多核并发事务控制需要基于`TSO(Total Store Order)`模型或`Relaxed Memory Consistency`做额外的处理，使用`memory fence`保证控制流在不同核心间的一致，进而实现事务的隔离性。同样的，在更大的集群尺度上，分布式数据库的事务隔离也需要依赖分布式一致性模型实施多对象的协调。~~套娃了属于是~~
 
 ## FLP Impossibility
 
