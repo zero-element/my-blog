@@ -12,8 +12,6 @@ tags: [
 
 rust练手
 
-rust搓数据结构直接难度+1档，全麻
-
 # 滑动窗口的最大值 
 
 4-8ms 全语言最快 rust巨大nb
@@ -49,7 +47,7 @@ impl Solution {
 
 # 二叉搜索树的第k大节点
 
-练一下智能指针
+智能指针
 
 ```rust
 use std::rc::Rc;
@@ -139,7 +137,7 @@ impl Solution {
 
 # 包含每个查询的最小区间
 
-BinaryHeap和BTreeMap嗯写的离线算法，效率有点拉跨，有功夫试试搓个线段树
+BinaryHeap和BTreeMap嗯写离线
 
 ```rust
 use std::collections::{BinaryHeap, BTreeMap};
@@ -194,7 +192,7 @@ impl Solution {
 
 # 有向图中最大颜色值
 
-懒得优化空间了，开了二维dp
+还可以优化空间
 
 ```rust
 use std::collections::{VecDeque};
